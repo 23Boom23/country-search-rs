@@ -70,6 +70,7 @@ input.type = "search";
 input.placeholder = "e.g. Iceland";
 input.autocomplete = "off";
 input.spellcheck = false;
+
 const field = element("div", "search-field");
 const magnifier = element("span", "magnifier");
 magnifier.ariaHidden = "true";
@@ -81,6 +82,7 @@ const output = element("section", "results");
 const status = element("p", "status");
 status.setAttribute("role", "status");
 const grid = element("ul", "results-grid");
+
 const retry = element("button", "action", "Try again");
 retry.type = "button";
 retry.hidden = true;
@@ -89,9 +91,12 @@ output.append(status, retry, grid);
 const detail = element("dialog", "detail");
 detail.setAttribute("aria-labelledby", "country-title");
 const detailBody = element("div", "detail-body");
+
 const close = element("button", "action close", "Close");
 close.type = "button";
 close.addEventListener("click", () => detail.close());
+
+// Only clicks on the backdrop dismiss the dialog.
 detail.addEventListener("click", (event) => {
   if (event.target === detail) detail.close();
 });
@@ -151,6 +156,7 @@ function render(state: SearchState) {
   status.dataset.state = state.kind;
   retry.hidden = state.kind !== "error";
   output.setAttribute("aria-busy", String(state.kind === "loading"));
+
   switch (state.kind) {
     case "idle":
       status.textContent = "";

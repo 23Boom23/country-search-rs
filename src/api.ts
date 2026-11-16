@@ -27,9 +27,12 @@ export async function searchCountries(
     `https://countries.dev/name/${encodeURIComponent(query)}`,
     { signal },
   );
+
   if (!response.ok) {
+    // A missing match is an empty result.
     if (response.status === 404) return [];
     throw new HttpError(response.status);
   }
+
   return response.json();
 }
